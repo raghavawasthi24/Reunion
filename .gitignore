@@ -1,4 +1,3 @@
-# restricting  node_modules
+*.env
+
 /node_modules
-# restricting env
-.env
