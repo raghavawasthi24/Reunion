@@ -65,6 +65,27 @@ const loginUser = async (req, res) => {
             res.status(200).json({"msg":"failed"})
         }
     }
+
+    const unfollowUser = async (req,res) => {
+      const user_id=req.body.id;
+      const userTofollow_id = req.params.id;
+  
+          try{
+              const user= await User.findById(user_id)
+              const userTofollow= await User.findById(userTofollow_id)
+              if(userTofollow.followers.includes(user_id)){
+                 await user.updateOne({$pull: {following:userTofollow_id}})
+                 await userTofollow.updateOne({$pull: {followers:user_id}})
+                 res.status(200).json({"msg":"user unfollowed successfully"})
+              }
+              else{
+                return res.status(403).json({"msg":"User already unfollowed"})
+              }
+          }
+          catch{
+              res.status(200).json({"msg":"failed"})
+          }
+      }
   
 
 
@@ -88,4 +109,4 @@ const getUser= async (req,res)=>{
     }
 }
 
-module.exports = { loginUser, followUser, getUser };
+module.exports = { loginUser, followUser,unfollowUser, getUser };
