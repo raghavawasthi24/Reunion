@@ -48,7 +48,7 @@ const loginUser = async (req, res) => {
   const followUser = async (req,res) => {
     const user_id=req.body.id;
     const userTofollow_id = req.params.id;
-
+    if(user_id!==userTofollow_id){
         try{
             const user= await User.findById(user_id)
             const userTofollow= await User.findById(userTofollow_id)
@@ -64,12 +64,17 @@ const loginUser = async (req, res) => {
         catch{
             res.status(200).json({"msg":"failed"})
         }
+      }
+        else{
+          res.status(403).json({"msg":"cant follow"})
+        }
+      
     }
 
     const unfollowUser = async (req,res) => {
       const user_id=req.body.id;
       const userTofollow_id = req.params.id;
-  
+       if(user_id!==userTofollow_id){
           try{
               const user= await User.findById(user_id)
               const userTofollow= await User.findById(userTofollow_id)
@@ -85,12 +90,12 @@ const loginUser = async (req, res) => {
           catch{
               res.status(200).json({"msg":"failed"})
           }
+        }
+        else{
+          res.status(403).json({"msg":"cant unfollow"})
+        }
       }
   
-
-
-
-
 
 const getUser= async (req,res)=>{
     const {id} = req.body;
@@ -98,7 +103,12 @@ const getUser= async (req,res)=>{
         const user = await User.findById(id);
         if(user)
         {
-           res.status(200).json({"msg":"user found","data":user});
+           res.status(200).json({"msg":"user found","data":{
+            "name":user.name,
+            "number":user.number,
+            "followers":user.followers.length,
+            "following":user.following.length
+           }});
         }
         else{
             res.status(200).json({"msg":"user not found"});
