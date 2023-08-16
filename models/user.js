@@ -18,33 +18,13 @@ let userSchema = mongoose.Schema({
     required: true,
   },
   followers: {
-    type: Number,
-    required: true,
+    type: Array,
+    default:[],
   },
   following: {
-    type: Number,
-    required: true,
+    type: Array,
+    default:[],
   },
-  posts: [
-    {
-      title: {
-        type: String,
-        required:true
-      },
-      description: {
-        type: String,
-        required: true,
-      },
-      likes: {
-        type: Number,
-        required: true,
-      },
-      dislikes: {
-        type: Number,
-        required: true,
-      },
-    },
-  ],
 });
 
 module.exports = mongoose.model("User", userSchema);
