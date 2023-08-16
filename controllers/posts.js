@@ -90,5 +90,46 @@ const likePost = async (req,res) => {
              
             }
 
+            const getPost= async (req,res)=>{
+                const {id} = req.params;
+                console.log(id)
+                try{
+                    const postDetails= await Posts.findById(id)
+                    console.log(postDetails)
+                    res.status(200).json({"data":{
+                        "likes":postDetails.likes.length,
+                        "comments":postDetails.comments
+                    }})
+                }
+                catch{
+                    res.status(400).json({"msg":"try again"})
+                }
+            }
 
-module.exports = {savePost,deletePost,likePost,unlikePost, commentPost}
+            const getAllPost= async (req,res)=>{
+                const {id} = req.params;
+                console.log(id)
+                try{
+                    const postDetails= await Posts.find({user_id:id})
+                    console.log(postDetails)
+                    let arr = [];
+                    for(let i=0;i<postDetails.length;i++)
+                    {
+                       arr.push({
+                        "id":postDetails[i]._id,
+                        "title":postDetails[i].title,
+                        "desc":postDetails[i].desc,
+                        "created_at":postDetails[i].createdAt,
+                        "likes":postDetails[i].likes.length,
+                        "comments":postDetails[i].comments
+                       })
+                    }
+                    res.status(200).json({"msg":"found","data":arr})
+                }
+                catch{
+                    res.status(400).json({"msg":"try again"})
+                }
+            }
+
+
+module.exports = {savePost,deletePost,likePost,unlikePost, commentPost,getPost,getAllPost}

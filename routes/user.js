@@ -9,7 +9,7 @@ const {
   getUser,
 } = require("../controllers/user");
 
-const {savePost,deletePost,likePost,unlikePost,commentPost} =require("../controllers/posts")
+const {savePost,deletePost,likePost,unlikePost,commentPost,getPost,getAllPost} =require("../controllers/posts")
 
 router.post("/authenticate",loginUser);  
 router.post("/follow/:id",followUser); 
@@ -21,4 +21,6 @@ router.delete("/posts/:id",deletePost);
 router.post("/like/:id",likePost); 
 router.post("/unlike/:id",unlikePost); 
 router.post("/comment/:id",commentPost); 
+router.get("/posts/:id",getPost); 
+router.get("/all_posts/:id",getAllPost); 
 module.exports=router;
